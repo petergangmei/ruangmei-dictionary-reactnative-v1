@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-const NavBar = ({backEnabled}) => {
+const NavBar = ({backEnabled, clickProfile}) => {
   const navigation = useNavigation(); 
   const { theme } = useTheme();
 
@@ -40,11 +40,13 @@ const NavBar = ({backEnabled}) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backIcon} onPress={()=> navigation.goBack()}>
-      <Ionicons name="chevron-back"  size={wp('6.5%')} color={theme.colors.primary} />
+      <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+        <Ionicons name="chevron-back" size={wp('6.5%')} color={theme.colors.primary} />
       </TouchableOpacity>
       <Text style={styles.text}>Ruangmei Dictionary</Text>
-      <EvilIcons name="user" style={styles.userIcon} size={wp('7%')} color={theme.colors.text} />
+      <TouchableOpacity style={styles.userIcon} onPress={clickProfile}>
+        <EvilIcons name="user" size={wp('7%')} color={theme.colors.text} />
+      </TouchableOpacity>
     </View>
   )
 }
