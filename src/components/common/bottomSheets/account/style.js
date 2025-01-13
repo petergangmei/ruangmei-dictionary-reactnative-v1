@@ -27,11 +27,28 @@ export const createStyles = (theme) =>
     },
   
     profileSection: {
-      height: hp('20%'),
+      height: hp('13%'),
       backgroundColor: theme.colors.background,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: wp('8%'),
       marginVertical:hp('1%'),
       marginHorizontal: wp('5%'),
   
+    },
+    userLogo: {
+      width: wp('15%'),
+      height: wp('15%'),
+    },
+    subSection:{
+      width: wp('55%'),
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    signInText:{
+      fontSize: wp('4%'),
+      fontWeight: 'bold',
     },
     settingSection:{
       height:hp('50%'),

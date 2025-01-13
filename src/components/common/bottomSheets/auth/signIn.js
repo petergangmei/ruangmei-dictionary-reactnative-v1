@@ -1,46 +1,54 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { Text, View, Image, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import logoImage from '../../../../assets/images/logo.png';
+import { useTheme } from '../../../../config/context/ThemeContext';
+import { createStyles } from './style';
+import ContinueWithEmail from './continueWithEmail';
 
-const SignInBottomSheet = ({show=false}) => {
-    // bottom sheet ref
-      const bottomSheetRef = useRef(null);
-    
-      const snapPoints = useMemo(() => [900,1000]);
-    
-      // callback for changes in bottom sheet position
-      const handleSheetChanges = useCallback((index) => {
-        console.log('BottomSheet onChange -> index:', index);
-      }, []);
-    
-      useEffect(() => {
-        console.log('----> show: ', show)
-        if(show){
-            // bottomSheetRef.current?.snapToIndex(1)
-            setTimeout(() => {
-                // bottomSheetRef.current?.snapToIndex(1)
-            }, 1000);
-        }
-      }, [show])
+const SignInBottomSheet = ({ close }) => {
+  const [continueWithEmailActive, setContinueWithEmailActive] = useState(true);
+
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
 
   return (
-    <View style={{flex: 1, backgroundColor: 'rgba(255, 255, 255, 0)'}}>
-      <Text>SignInBottomSheet</Text>
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={0}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-      >
-        <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-        </BottomSheetView>
-      </BottomSheet>
+    <View>
+      {continueWithEmailActive ?<View style={styles.navBarWithEmail}>
+        <TouchableOpacity onPress={() => setContinueWithEmailActive(false)}>
+          <Feather name="chevron-left" size={wp('7%')} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.registerLoginText}>Register or Login</Text>
+      </View>: <View style={styles.navBar}>
+        <TouchableOpacity onPress={() => close()}>
+          <Ionicons name="close-outline" size={wp('7%')} color="black" />
+        </TouchableOpacity>
+      </View>}
+      {continueWithEmailActive ? <ContinueWithEmail/> : <View>
+        {/* Logo section */}
+        <View style={styles.logoSection}>
+          <Image source={logoImage} style={styles.logoImage} />
+          <Text style={styles.welcomeText}>Welcome</Text>
+        </View>
+
+        {/* descrption section */}
+        <View style={styles.descritpion}>
+          <Text style={styles.descText}>Join the Ruangmei Diectionary Community today</Text>
+        </View>
+
+        {/* login methods */}
+        <View style={styles.loginMethodsContainer}>
+          {/* signin with email  */}
+          <TouchableOpacity style={styles.continueWithEmail} onPress={() => setContinueWithEmailActive(true)}>
+            <Text style={styles.signWithEmailText}>Continue with  Email</Text>
+          </TouchableOpacity>
+        </View>
+      </View>}
 
     </View>
   )
 }
 
 export default SignInBottomSheet
-
-const styles = StyleSheet.create({})

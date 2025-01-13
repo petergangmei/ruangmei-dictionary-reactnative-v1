@@ -1,14 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Text, Image, View, TouchableOpacity } from 'react-native'
+import React, {useRef} from 'react'
 import { useTheme } from '../../../../config/context/ThemeContext';
-// import { useTheme } from '../../../../config/context/ThemeContext';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import Feather from 'react-native-vector-icons/Feather';
 import { createStyles } from './style';
 
-const AccountScreenComponent = ({ closeProfileSheet }) => {
-  const { theme } = useTheme();
+const AccountScreenComponent = ({ closeProfileSheet, clickSignIn }) => {
+    const { theme } = useTheme();
     const styles = createStyles(theme);
 
   return (
@@ -24,11 +21,13 @@ const AccountScreenComponent = ({ closeProfileSheet }) => {
 
       <View style={styles.container}>
         {/* profile section */}
-        <View style={styles.profileSection}>
-          <Text>Sign In</Text>
-          <Ionicons name="person" size={wp('10%')} />
-
-        </View>
+        <TouchableOpacity style={styles.profileSection} onPress={()=>clickSignIn()}>
+          <Image source={require('../../../../assets/images/profile.png')} style={styles.userLogo} />
+          <View style={styles.subSection}>
+          <Text style={styles.signInText}>Sign In</Text>
+          <Feather name="chevron-right" size={20} color="black" />
+          </View>
+        </TouchableOpacity>
 
         {/* settings section */}
         <View style={styles.settingSection}>

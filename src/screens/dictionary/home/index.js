@@ -23,6 +23,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 // 2) Import BottomSheet and BottomSheetView from @gorhom/bottom-sheet
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import AccountScreenComponent from '../../../components/common/bottomSheets/account';
+import SignInBottomSheet from '../../../components/common/bottomSheets/auth/signIn';
 
 const DictionaryScreen = () => {
   const navigation = useNavigation();
@@ -31,6 +32,7 @@ const DictionaryScreen = () => {
 
   // bottom sheet ref
   const bottomSheetRef = useRef(null);
+  const signInBottomSheet = useRef(null);
 
 
   const recentSearches = [
@@ -42,7 +44,7 @@ const DictionaryScreen = () => {
   return (
     // 3) Wrap your entire screen in GestureHandlerRootView
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavBar clickProfile={()=>bottomSheetRef.current?.snapToIndex(1)} />
+      <NavBar clickProfile={() => bottomSheetRef.current?.snapToIndex(1)} />
       <ScrollView
         style={styles.container}
         contentContainerStyle={{ paddingBottom: 20 }}
@@ -125,7 +127,6 @@ const DictionaryScreen = () => {
 
       </ScrollView>
 
-      {/* 4) The BottomSheet component with onChange & BottomSheetView */}
       <BottomSheet
         ref={bottomSheetRef}
         index={0}
@@ -133,7 +134,17 @@ const DictionaryScreen = () => {
         snapPoints={[830]}
       >
         <BottomSheetView>
-          <AccountScreenComponent closeProfileSheet={()=> bottomSheetRef.current?.snapToIndex(0)} />
+          <AccountScreenComponent clickSignIn={()=>signInBottomSheet.current?.snapToIndex(1)}  closeProfileSheet={() => bottomSheetRef.current?.snapToIndex(0)} />
+        </BottomSheetView>
+      </BottomSheet>
+      <BottomSheet
+        ref={signInBottomSheet}
+        index={-1}
+        handleComponent={null}
+        snapPoints={[830]}
+      >
+        <BottomSheetView>
+          <SignInBottomSheet close={() => [signInBottomSheet.current?.close(), console.log('----> click close ')]} />
         </BottomSheetView>
       </BottomSheet>
 
